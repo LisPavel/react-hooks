@@ -38,6 +38,15 @@ const FormComponent = ({
         onSubmit(data);
     };
 
+    const handleKeyDown = (ev) => {
+        if (ev.keyCode !== 13) return;
+        ev.preventDefault();
+        const form = ev.target.form;
+        const fieldIndex = Array.prototype.indexOf.call(form, ev.target);
+        form.elements[fieldIndex + 1]?.focus();
+        // console.log(form, fieldIndex);
+    };
+
     useEffect(() => validate(data), [data]);
 
     const isValid = Object.keys(errors).length === 0;
@@ -55,7 +64,8 @@ const FormComponent = ({
                     ...child.props,
                     onChange: handleChange,
                     value: data[child.props.name] || "",
-                    error: errors[child.props.name]
+                    error: errors[child.props.name],
+                    onKeyDown: handleKeyDown
                 };
                 break;
 
