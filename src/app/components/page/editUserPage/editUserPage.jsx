@@ -76,7 +76,7 @@ const EditUserPage = () => {
                             defaultData={data}
                         >
                             {/* <form > */}
-                            <TextField label="Имя" name="name" />
+                            <TextField label="Имя" name="name" autoFocus />
                             <TextField label="Электронная почта" name="email" />
                             <SelectField
                                 label="Выбери свою профессию"
