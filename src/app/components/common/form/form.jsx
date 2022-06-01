@@ -38,14 +38,14 @@ const FormComponent = ({
         onSubmit(data);
     };
 
-    const handleKeyDown = (ev) => {
+    const handleKeyDown = useCallback((ev) => {
         if (ev.keyCode !== 13) return;
         ev.preventDefault();
         const form = ev.target.form;
         const fieldIndex = Array.prototype.indexOf.call(form, ev.target);
         form.elements[fieldIndex + 1]?.focus();
         // console.log(form, fieldIndex);
-    };
+    }, []);
 
     useEffect(() => validate(data), [data]);
 
