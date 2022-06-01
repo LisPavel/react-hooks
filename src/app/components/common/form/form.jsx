@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { validator } from "../../../utils/validator";
@@ -12,27 +12,33 @@ const FormComponent = ({
     const [data, setData] = useState(defaultData || {});
     const [errors, setErrors] = useState({});
 
-    const handleChange = (target) => {
-        setData((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
-    };
+    const handleChange = useCallback(
+        (target) => {
+            setData((prevState) => ({
+                ...prevState,
+                [target.name]: target.value
+            }));
+        },
+        [setData]
+    );
 
-    const validate = () => {
-        const errors = validator(data, validatorConfig);
-        setErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
+    const validate = useCallback(
+        (data) => {
+            const errors = validator(data, validatorConfig);
+            setErrors(errors);
+            return Object.keys(errors).length === 0;
+        },
+        [setErrors, validatorConfig]
+    );
 
     const handleSubmit = (ev) => {
         ev.preventDefault();
-        const isValid = validate();
+        const isValid = validate(data);
         if (!isValid) return;
         onSubmit(data);
     };
 
-    useEffect(() => validate(), [data]);
+    useEffect(() => validate(data), [data]);
 
     const isValid = Object.keys(errors).length === 0;
 
@@ -41,7 +47,7 @@ const FormComponent = ({
         let config = {};
 
         switch (childType) {
-            case "function":
+            case "object":
                 if (!child.props.name) {
                     throw new Error("name property required", child);
                 }
