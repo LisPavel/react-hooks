@@ -3,8 +3,13 @@ import PropTypes from "prop-types";
 
 import { validator } from "../../../utils/validator";
 
-const FormComponent = ({ children, onSubmit, validatorConfig }) => {
-    const [data, setData] = useState({});
+const FormComponent = ({
+    children,
+    onSubmit,
+    validatorConfig,
+    defaultData
+}) => {
+    const [data, setData] = useState(defaultData || {});
     const [errors, setErrors] = useState({});
 
     const handleChange = (target) => {
@@ -76,7 +81,8 @@ FormComponent.propTypes = {
         PropTypes.node
     ]),
     onSubmit: PropTypes.func,
-    validatorConfig: PropTypes.object
+    validatorConfig: PropTypes.object,
+    defaultData: PropTypes.object
 };
 
 export default FormComponent;

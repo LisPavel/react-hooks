@@ -74,6 +74,7 @@ const EditUserPage = () => {
                         <FormComponent
                             onSubmit={handleSubmit}
                             validatorConfig={validatorConfig}
+                            defaultData={data}
                         >
                             {/* <form > */}
                             <TextField label="Имя" name="name" />
